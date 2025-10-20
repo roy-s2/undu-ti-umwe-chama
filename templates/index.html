@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undu Ti Umwe Chama - Member Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+        
+        .chama-motto {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 25px;
+            display: inline-block;
+            font-style: italic;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            background: #34495e;
+            border-bottom: 3px solid #27ae60;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s;
+            border-right: 1px solid #2c3e50;
+        }
+        
+        .tab:last-child {
+            border-right: none;
+        }
+        
+        .tab:hover {
+            background: #2c3e50;
+        }
+        
+        .tab.active {
+            background: #27ae60;
+            font-weight: bold;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 4px solid #27ae60;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .card h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .card .amount {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #27ae60;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #27ae60;
+        }
+        
+        .btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .btn:hover {
+            background: #219a52;
+        }
+        
+        .btn-secondary {
+            background: #3498db;
+        }
+        
+        .btn-secondary:hover {
+            background: #2980b9;
+        }
+        
+        .response {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        
+        .error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        
+        .info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 10px 0;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 2s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .activity-list {
+            margin-top: 20px;
+        }
+        
+        .activity-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .test-info {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        
+        .section-title {
+            color: #2c3e50;
+            margin: 25px 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Undu Ti Umwe Chama</h1>
+            <div class="subtitle">Together We Grow - United We Prosper</div>
+            <div class="chama-motto">"Unity is Strength, Progress is Our Goal"</div>
+        </div>
+        
+        <div class="nav-tabs">
+            <div class="tab active" onclick="switchTab('dashboard')">📊 Dashboard</div>
+            <div class="tab" onclick="switchTab('payments')">💳 Make Payment</div>
+            <div class="tab" onclick="switchTab('contributions')">💰 Contributions</div>
+            <div class="tab" onclick="switchTab('activities')">📅 Activities</div>
+        </div>
+        
+        <div class="content">
+            <!-- Dashboard Tab -->
+            <div id="dashboard" class="tab-content active">
+                <h2 class="section-title">Chama Dashboard</h2>
+                
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <h3>Total Members</h3>
+                        <div class="amount">25</div>
+                        <small>Active: 22 | Inactive: 3</small>
+                    </div>
+                    <div class="card">
+                        <h3>Total Contributions</h3>
+                        <div class="amount">KSh 187,500</div>
+                        <small>This Month: KSh 25,000</small>
+                    </div>
+                    <div class="card">
+                        <h3>Loans Issued</h3>
+                        <div class="amount">KSh 89,000</div>
+                        <small>Active Loans: 5</small>
+                    </div>
+                    <div class="card">
+                        <h3>Next Meeting</h3>
+                        <div class="amount">15th Dec</div>
+                        <small>Community Hall, 2:00 PM</small>
+                    </div>
+                </div>
+                
+                <div class="test-info">
+                    <strong>🧪 M-Pesa Test Mode:</strong><br>
+                    • Use phone: <strong>254708374149</strong><br>
+                    • Test amount: <strong>KSh 1</strong><br>
+                    • MPIN: <strong>1234</strong><br>
+                    • Payments go to sandbox environment
+                </div>
+                
+                <h3 class="section-title">Recent Activities</h3>
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <strong>Monthly Meeting</strong> - Dec 15, 2023<br>
+                        <small>📍 Community Hall | 🕒 2:00 PM</small>
+                    </div>
+                    <div class="activity-item">
+                        <strong>Harambee - School Fees</strong> - Dec 10, 2023<br>
+                        <small>🎯 Supporting member's education</small>
+                    </div>
+                    <div class="activity-item">
+                        <strong>Business Training</strong> - Dec 5, 2023<br>
+                        <small>📚 Entrepreneurship skills workshop</small>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Payments Tab -->
+            <div id="payments" class="tab-content">
+                <h2 class="section-title">Make M-Pesa Payment</h2>
+                <p>Use this form to make payments to the Chama via M-Pesa STK Push.</p>
+                
+                <div class="form-group">
+                    <label for="phone">Your M-Pesa Phone Number:</label>
+                    <input type="text" id="phone" placeholder="254712345678" value="254708374149" required>
+                    <small>Must start with 2547XXXXXXXX</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="amount">Amount (KSh):</label>
+                    <input type="number" id="amount" placeholder="1000" value="1" min="1" max="100000" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reference">Payment Reference:</label>
+                    <input type="text" id="reference" placeholder="DEC_CONTRIBUTION" value="CHAMA_CONTRIBUTION" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">Payment Description:</label>
+                    <input type="text" id="description" placeholder="Monthly contribution" value="Undu Ti Umwe Chama Payment">
+                </div>
+                
+                <button class="btn" onclick="processPayment()">
+                    💳 Make Payment via M-Pesa
+                </button>
+                
+                <button class="btn btn-secondary" onclick="quickTest()">
+                    🧪 Quick Test Payment
+                </button>
+                
+                <div class="loading" id="paymentLoading">
+                    <div class="spinner"></div>
+                    <p>Initiating M-Pesa STK Push...</p>
+                </div>
+                
+                <div id="paymentResponse" class="response"></div>
+                
+                <div class="test-info">
+                    <strong>Payment Categories:</strong><br>
+                    • <strong>Regular Contributions:</strong> KSh 1,000 monthly<br>
+                    • <strong>Emergency Fund:</strong> KSh 500 as needed<br>
+                    • <strong>Project Contributions:</strong> Variable amounts<br>
+                    • <strong>Loan Repayments:</strong> As per agreement
+                </div>
+            </div>
+            
+            <!-- Contributions Tab -->
+            <div id="contributions" class="tab-content">
+                <h2 class="section-title">Quick Contributions</h2>
+                
+                <div class="form-group">
+                    <label>Contribution Type:</label>
+                    <select id="contributionType">
+                        <option value="regular">Regular Contribution - KSh 1,000</option>
+                        <option value="emergency">Emergency Fund - KSh 500</option>
+                        <option value="project">Project Contribution - KSh 2,000</option>
+                    </select>
+                </div>
+                
+                <button class="btn" onclick="processContribution()">
+                    💰 Pay Contribution via M-Pesa
+                </button>
+                
+                <div class="loading" id="contributionLoading">
+                    <div class="spinner"></div>
+                    <p>Processing contribution payment...</p>
+                </div>
+                
+                <div id="contributionResponse" class="response"></div>
+            </div>
+            
+            <!-- Activities Tab -->
+            <div id="activities" class="tab-content">
+                <h2 class="section-title">Chama Activities & Events</h2>
+                
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <h3>📅 Monthly General Meeting</h3>
+                        <p><strong>Date:</strong> Every 15th of the month</p>
+                        <p><strong>Time:</strong> 2:00 PM - 4:00 PM</p>
+                        <p><strong>Venue:</strong> Community Hall</p>
+                        <p><strong>Agenda:</strong> Financial review, project updates, member contributions</p>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <h3>🎯 Harambee Projects</h3>
+                        <p><strong>Current:</strong> School Fees Support Program</p>
+                        <p><strong>Goal:</strong> KSh 50,000</p>
+                        <p><strong>Progress:</strong> KSh 35,000 collected</p>
+                        <p><strong>Beneficiaries:</strong> 3 member families</p>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <h3>📚 Skills Development</h3>
+                        <p><strong>Next Workshop:</strong> Business Management Basics</p>
+                        <p><strong>Date:</strong> December 20, 2023</p>
+                        <p><strong>Facilitator:</strong> Local Business Expert</p>
+                        <p><strong>Focus:</strong> Small business accounting and marketing</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+        
+        async function processPayment() {
+            const phone = document.getElementById('phone').value.trim();
+            const amount = parseInt(document.getElementById('amount').value);
+            const reference = document.getElementById('reference').value.trim();
+            const description = document.getElementById('description').value.trim();
+            
+            const loading = document.getElementById('paymentLoading');
+            const responseDiv = document.getElementById('paymentResponse');
+            
+            // Validate phone number
+            if (!phone.startsWith('254') || phone.length !== 12) {
+                showResponse('paymentResponse', 'error', 'Phone number must be in format 2547XXXXXXXX');
+                return;
+            }
+            
+            // Show loading
+            loading.style.display = 'block';
+            responseDiv.style.display = 'none';
+            
+            try {
+                const response = await fetch('/api/initiate-payment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        phone: phone,
+                        amount: amount,
+                        reference: reference,
+                        description: description
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showResponse('paymentResponse', 'success', 
+                        `✅ M-Pesa STK Push initiated!<br><br>
+                         <strong>Amount:</strong> KSh ${amount}<br>
+                         <strong>Reference:</strong> ${reference}<br>
+                         <strong>Message:</strong> ${data.customer_message}<br><br>
+                         📱 Check your phone to enter your M-Pesa PIN.`
+                    );
+                } else {
+                    showResponse('paymentResponse', 'error', 
+                        `❌ Payment initiation failed:<br>${data.error}`
+                    );
+                }
+                
+            } catch (error) {
+                showResponse('paymentResponse', 'error', 
+                    `❌ Network error: ${error.message}`
+                );
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+        
+        async function processContribution() {
+            const type = document.getElementById('contributionType').value;
+            let amount = 1000;
+            let reference = 'REGULAR_CONTRIBUTION';
+            
+            if (type === 'emergency') {
+                amount = 500;
+                reference = 'EMERGENCY_FUND';
+            } else if (type === 'project') {
+                amount = 2000;
+                reference = 'PROJECT_CONTRIBUTION';
+            }
+            
+            const phone = "254708374149"; // Default test number
+            const loading = document.getElementById('contributionLoading');
+            const responseDiv = document.getElementById('contributionResponse');
+            
+            loading.style.display = 'block';
+            responseDiv.style.display = 'none';
+            
+            try {
+                const response = await fetch('/api/initiate-payment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        phone: phone,
+                        amount: amount,
+                        reference: reference,
+                        description: `Chama Contribution - ${type}`
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showResponse('contributionResponse', 'success', 
+                        `✅ Contribution payment initiated!<br><br>
+                         <strong>Type:</strong> ${type}<br>
+                         <strong>Amount:</strong> KSh ${amount}<br>
+                         <strong>Message:</strong> ${data.customer_message}<br><br>
+                         💡 Check your phone to complete the payment.`
+                    );
+                } else {
+                    showResponse('contributionResponse', 'error', 
+                        `❌ Payment failed:<br>${data.error}`
+                    );
+                }
+                
+            } catch (error) {
+                showResponse('contributionResponse', 'error', 
+                    `❌ Network error: ${error.message}`
+                );
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+        
+        function quickTest() {
+            document.getElementById('phone').value = '254708374149';
+            document.getElementById('amount').value = '1';
+            document.getElementById('reference').value = `TEST_${Date.now()}`;
+            document.getElementById('description').value = 'Quick Test Payment';
+            processPayment();
+        }
+        
+        function showResponse(elementId, type, message) {
+            const responseDiv = document.getElementById(elementId);
+            responseDiv.className = `response ${type}`;
+            responseDiv.innerHTML = message;
+            responseDiv.style.display = 'block';
+            
+            // Scroll to response
+            responseDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Test API connection on load
+        async function testConnection() {
+            try {
+                const response = await fetch('/api/health');
+                const data = await response.json();
+                console.log('API Health:', data);
+            } catch (error) {
+                console.error('Health check failed:', error);
+            }
+        }
+        
+        testConnection();
+    </script>
+</body>
+</html>

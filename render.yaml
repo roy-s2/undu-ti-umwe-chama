@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: undu-ti-umwe-chama
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn appp:app
+    envVars:
+      - key: DARAJA_CONSUMER_KEY
+        value: 2Qn44kLmyujxlRLoQyQO87WsAAbfkfcoAHXLtNxTSCleGI4d
+      - key: DARAJA_CONSUMER_SECRET
+        value: QFGjKo0n5gdpX12AeXnyeArtrMhAhydG8ymNCovmfMidJH73INpQvdaYWteAh2se
+      - key: DARAJA_PASSKEY
+        value: bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919
+      - key: SECRET_KEY
+        value: undu_ti_umwe_chama_secret_key_2023_production
